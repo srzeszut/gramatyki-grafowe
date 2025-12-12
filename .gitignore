@@ -19,9 +19,7 @@ build/
 *~
 
 # Test outputs
-tests/outputs/*.png
-tests/test_p0/outputs/*.png
-productions/p0/outputs/*.png
+**/outputs/*
 
 # OS
 .DS_Store
