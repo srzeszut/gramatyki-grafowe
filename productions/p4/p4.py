@@ -21,15 +21,12 @@ class P4(Production):
         hyperedges_to_check = [hyperedge] if hyperedge else graph.edges
 
         for edge in hyperedges_to_check:
-            # Must be hyperedge
             if not edge.is_border:
                 continue
 
-            # Must be boundary edge (label E)
             if edge.label != "E":
                 continue
 
-            # Must be marked for refinement (R = 1)
             if edge.R != 1:
                 continue
 
@@ -48,20 +45,25 @@ class P4(Production):
         y_mid = (n1.y + n2.y) / 2
         new_node = graph.add_node(x_mid, y_mid)
 
-        e1 = graph.add_hyperedge([n1, new_node], label="E")
-        e1.R = 0
-        e2 = graph.add_hyperedge([new_node, n2], label="E")
-        e2.R = 0
 
-        edge.R = 0
+        e1 = graph.add_hyperedge([n1, new_node], label=edge.label)
+       
+        e1.is_border = edge.is_border
+        e2 = graph.add_hyperedge([new_node, n2], label=edge.label)
+        
+        e2.is_border = edge.is_border
+        if edge.label == "E":
+            e2.R = 0
+            e1.R = 0
+
+        graph.remove_edge(edge)
+
 
         print(f"[{self.name}] Boundary edge broken into two edges with new node")
-        print(f"[{self.name}] Original edge: {edge}")
         print(f"[{self.name}] New node: {new_node}")
         print(f"[{self.name}] New edges: {e1}, {e2}")
 
         return {
-            'original_edge': edge,
             'new_node': new_node,
             'new_edges': [e1, e2]
         }
