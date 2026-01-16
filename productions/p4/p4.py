@@ -45,16 +45,12 @@ class P4(Production):
         y_mid = (n1.y + n2.y) / 2
         new_node = graph.add_node(x_mid, y_mid)
 
-
-        e1 = graph.add_hyperedge([n1, new_node], label=edge.label)
-       
+        e1 = graph.add_hyperedge([n1, new_node], label="E")
+        e1.R = 0
         e1.is_border = edge.is_border
-        e2 = graph.add_hyperedge([new_node, n2], label=edge.label)
-        
+        e2 = graph.add_hyperedge([new_node, n2], label="E")
+        e2.R = 0
         e2.is_border = edge.is_border
-        if edge.label == "E":
-            e2.R = 0
-            e1.R = 0
 
         graph.remove_edge(edge)
 
